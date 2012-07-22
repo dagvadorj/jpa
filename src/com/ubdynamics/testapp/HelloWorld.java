@@ -23,23 +23,23 @@ public class HelloWorld extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public HelloWorld() {
-        super();
-    }
+		super();
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		List<Employee> filteredEmployees = new Employee()
-			.find("name=?", "Jesse").fetch();
-		
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		List<Employee> filteredEmployees = new Employee().find("name=?",
+				"Jesse").fetch();
+
 		for (Employee employee : filteredEmployees) {
 			employee.delete();
 		}
 
-
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		String name = request.getParameter("name");
 		Integer age = Integer.parseInt(request.getParameter("age"));
@@ -50,8 +50,7 @@ public class HelloWorld extends HttpServlet {
 		employee.contactInfos = new ArrayList<ContactInfo>();
 		employee.save();
 
-		List<Employee> employees = new Employee()
-			.find().fetch();
+		List<Employee> employees = new Employee().find().fetch();
 
 		response.setContentType("text/html");
 

@@ -21,11 +21,11 @@ public class Model {
 	public <T extends Model> T save() {
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(this);
-        session.getTransaction().commit();
+		session.beginTransaction();
+		session.saveOrUpdate(this);
+		session.getTransaction().commit();
 
-        return (T) this;
+		return (T) this;
 
 	}
 
@@ -33,44 +33,44 @@ public class Model {
 	public <T extends Model> T delete() {
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.delete(this);
-        session.getTransaction().commit();
+		session.beginTransaction();
+		session.delete(this);
+		session.getTransaction().commit();
 
-        return (T) this;
+		return (T) this;
 
 	}
-	
+
 	public JPAQuery find() {
 
-		Session session =
-				HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Query query = session.createQuery("from " + 
-				this.getClass().getSimpleName());
+		Query query = session.createQuery("from "
+				+ this.getClass().getSimpleName());
 
-        return new JPAQuery(query, session);
+		return new JPAQuery(query, session);
 
 	}
 
 	public JPAQuery find(String queryString, Object... params) {
 
-		Session session =
-				HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Query query = session.createQuery("from " + this.getClass().getSimpleName() + 
-        		((queryString.trim().length()>0) ? " where " + queryString : ""));
+		Query query = session.createQuery("from "
+				+ this.getClass().getSimpleName()
+				+ ((queryString.trim().length() > 0) ? " where " + queryString
+						: ""));
 
-        for (int i=0; i<params.length; i++) {
-        	query.setParameter(0, params[i]);
-        }
+		for (int i = 0; i < params.length; i++) {
+			query.setParameter(0, params[i]);
+		}
 
-        return new JPAQuery(query, session);
+		return new JPAQuery(query, session);
 
 	}
-	
+
 	public static class JPAQuery {
 
 		private Query query;
@@ -98,8 +98,9 @@ public class Model {
 
 		@SuppressWarnings({ "unchecked" })
 		public <T extends Model> List<T> fetch(int pageIndex, int size) {
-			if (pageIndex < 0) pageIndex = 0;
-			this.query.setFirstResult(pageIndex*size);
+			if (pageIndex < 0)
+				pageIndex = 0;
+			this.query.setFirstResult(pageIndex * size);
 			this.query.setMaxResults(size);
 			List<T> results = this.query.list();
 			this.session.getTransaction().commit();
@@ -112,5 +113,5 @@ public class Model {
 		}
 
 	};
-	
+
 }

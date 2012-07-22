@@ -12,7 +12,7 @@ public class Employee extends Model {
 
 	public String name;
 	public Integer age;
-	
+
 	@OneToMany
 	public List<ContactInfo> contactInfos;
 
